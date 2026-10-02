@@ -1,0 +1,725 @@
+/* =========================================================
+   ECOSORT — style.css  (ajustado)
+   ========================================================= */
+
+/* ---------- VARIÁVEIS ---------- */
+:root{
+  --noite:       #0b1030;
+  --painel:      rgba(255,255,255,.07);
+  --borda:       rgba(255,255,255,.14);
+  --texto:       #eef2ff;
+  --texto-fraco: rgba(238,242,255,.70);
+  --amarelo:     #ffcc3d;
+  --verde:       #35d07f;
+  --vermelho:    #ff5a4e;
+  --azul:        #4aa8ff;
+  --raio:        22px;
+  --raio-p:      14px;
+  --sombra:      0 14px 32px rgba(0,0,0,.38);
+}
+
+/* ---------- RESET ---------- */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{ scroll-behavior: smooth; }
+
+body{
+  font-family: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;
+  color: var(--texto);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  background-color: var(--noite);
+  background-image:
+    radial-gradient(circle at 12% 15%, rgba(108,75,216,.50), transparent 45%),
+    radial-gradient(circle at 88% 8%,  rgba(40,214,208,.28), transparent 42%),
+    radial-gradient(circle at 50% 115%, rgba(255,95,158,.30), transparent 55%);
+  background-attachment: fixed;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   HUD (cabeçalho)
+   ========================================================= */
+.hud{
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 10px clamp(14px, 4vw, 40px);
+  background: rgba(9, 13, 40, .78);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--borda);
+  transition: transform .3s ease, opacity .3s ease;
+}
+
+.hud--oculto{
+  display: none;
+}
+
+.hud__marca{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: .02em;
+}
+
+.hud__logo{
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 10px rgba(40,214,208,.7));
+}
+
+.hud__stats{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.stat{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 76px;
+  padding: 5px 14px;
+  border-radius: var(--raio-p);
+  background: var(--painel);
+  border: 1px solid var(--borda);
+}
+
+.stat__rotulo{
+  font-size: .66rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+}
+
+.stat__valor{
+  font-size: 1.12rem;
+  font-weight: 600;
+  transition: color .2s ease, transform .2s ease;
+}
+
+.stat__valor--vidas{
+  letter-spacing: 1px;
+  font-size: 1rem;
+}
+
+.stat__valor--brilho{
+  color: var(--amarelo);
+  transform: scale(1.08);
+  text-shadow: 0 0 12px rgba(255,204,61,.8);
+}
+
+.btn-som{
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--borda);
+  background: var(--painel);
+  color: var(--texto);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease;
+}
+
+.btn-som:hover{ transform: scale(1.08); background: rgba(255,255,255,.16); }
+.btn-som:active{ transform: scale(.94); }
+
+/* =========================================================
+   ESTRUTURA DAS TELAS
+   ========================================================= */
+main{
+  flex: 1;
+  width: 100%;
+  padding: clamp(16px, 3.5vw, 34px) clamp(14px, 4vw, 40px) 48px;
+}
+
+.tela{ display: none; }
+
+.tela--ativa{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 3vw, 26px);
+  animation: aparecer .4s ease both;
+}
+
+@keyframes aparecer{
+  from{ opacity: 0; transform: translateY(14px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   CARTÕES (início / fim de missão / final)
+   ========================================================= */
+.cartao{
+  width: min(700px, 100%);
+  padding: clamp(24px, 4vw, 42px);
+  border-radius: 28px;
+  background: linear-gradient(165deg, rgba(255,255,255,.11), rgba(255,255,255,.035));
+  border: 1px solid var(--borda);
+  box-shadow: var(--sombra);
+  backdrop-filter: blur(6px);
+  text-align: center;
+}
+
+.cartao--centro{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.emblema{
+  display: inline-block;
+  font-size: clamp(3rem, 9vw, 4.4rem);
+  line-height: 1;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.45));
+}
+
+.emblema--flutua{ animation: flutuar 3s ease-in-out infinite; }
+
+@keyframes flutuar{
+  0%, 100%{ transform: translateY(0) rotate(-3deg); }
+  50%{ transform: translateY(-14px) rotate(3deg); }
+}
+
+.titulo-jogo{
+  font-size: clamp(2.3rem, 8vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: .02em;
+  background: linear-gradient(90deg, #6ff0e0, #7ea8ff, #ff8fd0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1.05;
+}
+
+.subtitulo{
+  font-size: clamp(.95rem, 2.6vw, 1.15rem);
+  color: var(--texto-fraco);
+  margin-top: 4px;
+  letter-spacing: .04em;
+}
+
+.texto-intro{
+  margin-top: 16px;
+  font-size: clamp(.98rem, 2.6vw, 1.1rem);
+  line-height: 1.6;
+  color: rgba(238,242,255,.88);
+}
+
+.texto-intro strong{ color: var(--amarelo); }
+
+/* Caixa de regras */
+.regras{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 24px 0 26px;
+  text-align: left;
+}
+
+.regra{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--raio-p);
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  font-size: .95rem;
+  line-height: 1.4;
+}
+
+.regra__icone{
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   BOTÕES
+   ========================================================= */
+.btn{
+  font-family: inherit;
+  font-size: clamp(1rem, 2.6vw, 1.12rem);
+  font-weight: 600;
+  padding: 16px 34px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+}
+
+.btn--principal{
+  color: #10163a;
+  background: linear-gradient(135deg, #6ff0e0, #ffd85e);
+  box-shadow: 0 8px 0 #1d8f86, 0 16px 28px rgba(0,0,0,.35);
+}
+
+.btn--principal:hover{
+  transform: translateY(-3px);
+  filter: brightness(1.06);
+  box-shadow: 0 11px 0 #1d8f86, 0 20px 32px rgba(0,0,0,.4);
+}
+
+.btn--principal:active{
+  transform: translateY(3px);
+  box-shadow: 0 4px 0 #1d8f86, 0 10px 18px rgba(0,0,0,.3);
+}
+
+/* Variante "perigo" — usada no botão de reinício quando o jogador
+   perde todas as vidas. Cor vermelha + pulso para chamar atenção. */
+.btn--perigo{
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff8a7f, #ff5a4e);
+  box-shadow: 0 8px 0 #a8261e, 0 16px 28px rgba(0,0,0,.35);
+  animation: pulsarPerigo 1.6s ease-in-out infinite;
+}
+
+.btn--perigo:hover{
+  transform: translateY(-3px);
+  filter: brightness(1.06);
+  box-shadow: 0 11px 0 #a8261e, 0 20px 32px rgba(0,0,0,.4);
+  animation-play-state: paused;
+}
+
+.btn--perigo:active{
+  transform: translateY(3px);
+  box-shadow: 0 4px 0 #a8261e, 0 10px 18px rgba(0,0,0,.3);
+}
+
+@keyframes pulsarPerigo{
+  0%, 100%{
+    box-shadow: 0 8px 0 #a8261e, 0 0 0 0 rgba(255,90,78,.65), 0 16px 28px rgba(0,0,0,.35);
+  }
+  50%{
+    box-shadow: 0 8px 0 #a8261e, 0 0 0 16px rgba(255,90,78,0), 0 16px 28px rgba(0,0,0,.35);
+  }
+}
+
+/* =========================================================
+   BANNER DA MISSÃO
+   ========================================================= */
+.missao-banner{
+  width: min(900px, 100%);
+  text-align: center;
+  padding: 14px 20px;
+  border-radius: var(--raio);
+  background: linear-gradient(120deg, rgba(108,75,216,.35), rgba(40,214,208,.22));
+  border: 1px solid var(--borda);
+}
+
+.missao-banner h2{
+  font-size: clamp(1.15rem, 3.6vw, 1.6rem);
+  font-weight: 600;
+}
+
+.missao-banner p{
+  margin-top: 4px;
+  font-size: clamp(.85rem, 2.4vw, .98rem);
+  color: var(--texto-fraco);
+}
+
+/* =========================================================
+   ESTEIRA
+   ========================================================= */
+.esteira{
+  width: min(900px, 100%);
+  padding: 16px 18px 18px;
+  border-radius: var(--raio);
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
+  border: 1px solid var(--borda);
+  box-shadow: var(--sombra);
+}
+
+.esteira__cabeca{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: .85rem;
+  color: var(--texto-fraco);
+  margin-bottom: 6px;
+}
+
+.esteira__contador{
+  font-weight: 600;
+  color: var(--texto);
+  background: rgba(255,255,255,.10);
+  padding: 3px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--borda);
+}
+
+.esteira__area{
+  position: relative;
+  min-height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+}
+
+.esteira__trilha{
+  height: 14px;
+  border-radius: 8px;
+  background: repeating-linear-gradient(115deg, #2b3568 0 14px, #3d4a92 14px 28px);
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,.30);
+  animation: correia 1.4s linear infinite;
+}
+
+@keyframes correia{
+  from{ background-position: 0 0; }
+  to{ background-position: -56px 0; }
+}
+
+/* ---------- ITEM ARRASTÁVEL ---------- */
+.item{
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 14px 28px;
+  border-radius: 20px;
+  border: 3px solid #ffffff;
+  background: linear-gradient(180deg, #ffffff, #dfe5ff);
+  color: #17204d;
+  box-shadow: 0 9px 0 rgba(0,0,0,.22), 0 16px 28px rgba(0,0,0,.38);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform .18s ease, box-shadow .18s ease;
+  will-change: transform;
+}
+
+.item__emoji{
+  font-size: clamp(2.2rem, 7vw, 3rem);
+  line-height: 1;
+}
+
+.item__nome{
+  font-size: clamp(.95rem, 2.8vw, 1.08rem);
+  font-weight: 600;
+  text-align: center;
+  max-width: 190px;
+}
+
+.item--arrastando{
+  cursor: grabbing;
+  z-index: 900;
+  box-shadow: 0 26px 42px rgba(0,0,0,.55);
+}
+
+.item--selecionado{
+  outline: 4px solid var(--amarelo);
+  outline-offset: 4px;
+  transform: translateY(-6px);
+  box-shadow: 0 0 26px rgba(255,204,61,.75), 0 14px 24px rgba(0,0,0,.4);
+}
+
+.item--certo{
+  animation: someCerto .6s ease forwards;
+  border-color: var(--verde);
+  box-shadow: 0 0 34px rgba(53,208,127,.9);
+}
+
+@keyframes someCerto{
+  0%{ transform: scale(1); opacity: 1; }
+  35%{ transform: scale(1.15); opacity: 1; }
+  100%{ transform: scale(.25) translateY(60px); opacity: 0; }
+}
+
+.item--errado{
+  animation: tremer .5s ease;
+  border-color: var(--vermelho);
+  box-shadow: 0 0 34px rgba(255,90,78,.85);
+}
+
+@keyframes tremer{
+  0%, 100%{ transform: translateX(0) rotate(0); }
+  18%{ transform: translateX(-13px) rotate(-4deg); }
+  38%{ transform: translateX(13px) rotate(4deg); }
+  58%{ transform: translateX(-9px) rotate(-3deg); }
+  78%{ transform: translateX(9px) rotate(3deg); }
+}
+
+/* ---------- BARRA DE TEMPO ---------- */
+.timer{
+  height: 11px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.13);
+  overflow: hidden;
+}
+
+.timer__barra{
+  height: 100%;
+  width: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #35d07f, #ffcc3d);
+}
+
+.timer__barra--alerta{
+  background: linear-gradient(90deg, #ffcc3d, #ff5a4e);
+  animation: piscar .6s ease-in-out infinite alternate;
+}
+
+@keyframes piscar{
+  from{ filter: brightness(1); }
+  to{ filter: brightness(1.55); }
+}
+
+/* =========================================================
+   CAIXAS DE CLASSIFICAÇÃO
+   ========================================================= */
+.caixas{
+  width: min(1100px, 100%);
+  display: grid;
+  gap: clamp(12px, 2.5vw, 22px);
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+}
+
+.caixa{
+  --cor: #35d07f;
+  --cor-suave: rgba(53,208,127,.18);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 165px;
+  padding: 16px;
+  border-radius: var(--raio);
+  border: 3px dashed var(--cor);
+  background: linear-gradient(165deg, var(--cor-suave), rgba(255,255,255,.03));
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-style .18s ease, background .18s ease;
+}
+
+.caixa:focus-visible{
+  outline: 3px solid var(--amarelo);
+  outline-offset: 3px;
+}
+
+.caixa__cabeca{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.caixa__emoji{
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.caixa__nome{
+  font-size: clamp(.95rem, 2.6vw, 1.08rem);
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.caixa__dica{
+  font-size: .8rem;
+  color: var(--texto-fraco);
+  line-height: 1.35;
+}
+
+.caixa__itens{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .72rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.14);
+  border: 1px solid var(--cor);
+  animation: pop .3s cubic-bezier(.34,1.56,.64,1) both;
+  white-space: nowrap;
+}
+
+@keyframes pop{
+  from{ transform: scale(.4); opacity: 0; }
+  to{ transform: scale(1); opacity: 1; }
+}
+
+/* Estados da caixa */
+.caixa--over{
+  transform: translateY(-7px) scale(1.035);
+  border-style: solid;
+  box-shadow: 0 0 0 7px var(--cor-suave), 0 18px 30px rgba(0,0,0,.4);
+}
+
+.caixa--certo{
+  border-style: solid;
+  animation: pulsoCerto .55s ease;
+}
+
+@keyframes pulsoCerto{
+  0%{ box-shadow: 0 0 0 0 rgba(53,208,127,.85); }
+  100%{ box-shadow: 0 0 0 26px rgba(53,208,127,0); }
+}
+
+.caixa--errado{
+  border-style: solid;
+  border-color: var(--vermelho);
+  animation: tremer .45s ease;
+}
+
+.caixa--revelar{
+  border-style: solid;
+  animation: revelar .8s ease 2;
+}
+
+@keyframes revelar{
+  0%, 100%{ box-shadow: 0 0 0 0 rgba(255,204,61,.9); }
+  50%{ box-shadow: 0 0 0 18px rgba(255,204,61,0), 0 0 40px rgba(255,204,61,.9); }
+}
+
+/* =========================================================
+   RESULTADOS
+   ========================================================= */
+.resultado-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  width: 100%;
+  margin: 8px 0 10px;
+}
+
+.mini-stat{
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 10px;
+  border-radius: var(--raio-p);
+  background: rgba(255,255,255,.07);
+  border: 1px solid var(--borda);
+}
+
+.mini-stat span{
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
+  font-weight: 700;
+  color: var(--amarelo);
+}
+
+.mini-stat small{
+  font-size: .72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+}
+
+.estrelas{
+  font-size: clamp(2rem, 8vw, 2.8rem);
+  letter-spacing: 6px;
+  filter: drop-shadow(0 0 14px rgba(255,204,61,.8));
+}
+
+/* =========================================================
+   RODAPÉ
+   ========================================================= */
+.rodape{
+  padding: 18px;
+  text-align: center;
+  font-size: .78rem;
+  color: rgba(238,242,255,.45);
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+
+/* =========================================================
+   TOAST (avisos)
+   ========================================================= */
+.toast{
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  transform: translate(-50%, 26px);
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .95rem;
+  color: #10163a;
+  background: #ffffff;
+  box-shadow: 0 14px 32px rgba(0,0,0,.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  z-index: 999;
+  max-width: calc(100vw - 32px);
+  text-align: center;
+}
+
+.toast--visivel{
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.toast--certo{ background: linear-gradient(135deg, #6ff0a8, #35d07f); }
+.toast--errado{ background: linear-gradient(135deg, #ffb0a8, #ff5a4e); color: #3a0b06; }
+.toast--info{ background: linear-gradient(135deg, #ffffff, #dfe5ff); }
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+@media (max-width: 700px){
+  .hud{ gap: 10px; padding: 8px 14px; }
+  .hud__nome{ display: none; }
+  .hud__stats{ margin-left: auto; gap: 6px; }
+  .stat{ min-width: 62px; padding: 4px 10px; }
+  .stat__valor{ font-size: .98rem; }
+  .btn-som{ width: 40px; height: 40px; }
+
+  .esteira__area{ min-height: 150px; }
+  .caixas{ grid-template-columns: 1fr; }
+  .caixa{ min-height: auto; }
+}
+
+@media (max-width: 380px){
+  .stat__rotulo{ font-size: .58rem; }
+  .stat{ min-width: 56px; }
+}
+
+/* Acessibilidade: menos movimento */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Corações menores quando há 5 vidas */
+.stat__valor--vidas{
+  font-size: 0.9rem;
+  letter-spacing: 0;
+}
+
+@media (max-width: 700px){
+  .stat__valor--vidas{
+    font-size: 0.8rem;
+  }
+}

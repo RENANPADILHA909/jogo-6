@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoSort — Laboratório de Classificação Científica</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===================== HUD ===================== -->
+  <header class="hud hud--oculto" id="hud">
+    <div class="hud__marca">
+      <span class="hud__logo">🧪</span>
+      <span class="hud__nome">EcoSort</span>
+    </div>
+
+    <div class="hud__stats">
+      <div class="stat">
+        <span class="stat__rotulo">Missão</span>
+        <span class="stat__valor" id="hud-missao">1/3</span>
+      </div>
+      <div class="stat">
+        <span class="stat__rotulo">Pontos</span>
+        <span class="stat__valor" id="hud-pontos">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat__rotulo">Combo</span>
+        <span class="stat__valor" id="hud-combo">x1</span>
+      </div>
+      <div class="stat">
+        <span class="stat__rotulo">Vidas</span>
+        <span class="stat__valor stat__valor--vidas" id="hud-vidas">💚💚💚</span>
+      </div>
+    </div>
+
+    <button class="btn-som" id="btn-som" type="button" aria-label="Ligar ou desligar o som">🔊</button>
+  </header>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+
+    <!-- ---------- TELA INICIAL ---------- -->
+    <section class="tela tela--ativa" id="tela-inicio">
+      <div class="cartao cartao--inicio">
+        <span class="emblema emblema--flutua">🔬</span>
+        <h1 class="titulo-jogo">EcoSort</h1>
+        <p class="subtitulo">Laboratório de Classificação Científica</p>
+
+        <p class="texto-intro">
+          Os itens chegaram pela esteira do laboratório e precisam ser
+          <strong>separados nas caixas certas</strong>. Serão 3 missões com
+          conteúdos de <strong>Ciências do 6º ano</strong>!
+        </p>
+
+        <div class="regras">
+          <div class="regra">
+            <span class="regra__icone">👆</span>
+            <p><strong>Arraste</strong> o item até a caixa — ou toque no item e depois na caixa.</p>
+          </div>
+          <div class="regra">
+            <span class="regra__icone">⚡</span>
+            <p>Acertos seguidos aumentam o <strong>combo</strong> e multiplicam seus pontos.</p>
+          </div>
+          <div class="regra">
+            <span class="regra__icone">💚</span>
+            <p>Você tem <strong>3 vidas</strong>. Errar ou deixar o tempo acabar custa uma.</p>
+          </div>
+        </div>
+
+        <button class="btn btn--principal" id="btn-comecar" type="button">
+          Começar a missão 🚀
+        </button>
+      </div>
+    </section>
+
+    <!-- ---------- TELA DE JOGO ---------- -->
+    <section class="tela" id="tela-jogo">
+
+      <div class="missao-banner">
+        <h2 id="missao-titulo">Missão 1</h2>
+        <p id="missao-descricao">Classifique os itens da esteira.</p>
+      </div>
+
+      <div class="esteira">
+        <div class="esteira__cabeca">
+          <span class="esteira__instrucao">👇 Arraste o item para a caixa correta</span>
+          <span class="esteira__contador" id="contador-itens">1 / 8</span>
+        </div>
+
+        <div class="esteira__area">
+          <div class="item" id="item-atual">
+            <span class="item__emoji">🐄</span>
+            <span class="item__nome">Vaca</span>
+          </div>
+        </div>
+
+        <div class="esteira__trilha" aria-hidden="true"></div>
+        <div class="timer" aria-hidden="true">
+          <div class="timer__barra" id="timer-barra"></div>
+        </div>
+      </div>
+
+      <div class="caixas" id="caixas"></div>
+    </section>
+
+    <!-- ---------- TELA DE FIM DE MISSÃO ---------- -->
+    <section class="tela" id="tela-missao">
+      <div class="cartao cartao--centro">
+        <span class="emblema" id="missao-emblema">✅</span>
+        <h2 id="missao-resultado-titulo">Missão concluída!</h2>
+        <p class="texto-intro" id="missao-resultado-texto"></p>
+        <div class="resultado-grid" id="missao-resultado-grid"></div>
+        <button class="btn btn--principal" id="btn-proxima" type="button" data-acao="proxima">
+          Próxima missão ➡️
+        </button>
+      </div>
+    </section>
+
+    <!-- ---------- TELA FINAL ---------- -->
+    <section class="tela" id="tela-final">
+      <div class="cartao cartao--centro">
+        <span class="emblema" id="final-emblema">🏆</span>
+        <h2 id="final-titulo">Você concluiu o EcoSort!</h2>
+        <p class="texto-intro" id="final-mensagem"></p>
+        <div class="estrelas" id="final-estrelas">⭐⭐⭐</div>
+        <div class="resultado-grid" id="final-grid"></div>
+        <button class="btn btn--principal" id="btn-reiniciar" type="button">
+          Jogar novamente 🔁
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="rodape">
+    <p>EcoSort · Jogo educativo de Ciências — 6º ano do Ensino Fundamental</p>
+  </footer>
+
+  <!-- Avisos rápidos na tela -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
